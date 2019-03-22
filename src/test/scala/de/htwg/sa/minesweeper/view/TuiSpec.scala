@@ -102,7 +102,6 @@ class TuiSpec extends WordSpec with Matchers {
       tui.processInputLine("1")
       tui.processInputLine("load")
       controller.getChecked(1, 1) should be(true)
-      controller.flag should be(false)
     }
 
     "lose a minesweeper game" in {
