@@ -79,7 +79,7 @@ class TuiSpec extends WordSpec with Matchers {
       }
     }
 
-    "set not a flag on input '9 9 9'" in {
+    "not set a flag on input '9 9 9'" in {
       val input = "9 9 9"
       tui.processInputLine(input)
     }
