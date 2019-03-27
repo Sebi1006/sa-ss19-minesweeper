@@ -10,7 +10,7 @@ import com.google.inject.Guice
 
 object MineSweeper {
 
-  var controller: ControllerInterface = Guice.createInjector(new MineSweeperModule).instance[ControllerFactory].create(Grid())
+  var controller: ControllerInterface = Guice.createInjector(new MineSweeperModule).instance[ControllerFactory].create(Grid(10, 10, 10))
   val tui = new Tui(controller)
   val gui = new Gui(controller)
 

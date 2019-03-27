@@ -10,28 +10,26 @@ class CellSpec extends WordSpec with Matchers {
 
   "A Cell" when {
     "not set to any value " should {
-      val emptyCell = new Cell()
-      emptyCell.init(false, 0, 'w', new Color(255, 255, 255), false)
+      val emptyCell = new Cell(false, 0, 'w', Some(new Color(255, 255, 255)), false)
 
       "have value 0" in {
         emptyCell.value should be(0)
       }
 
       "not be set" in {
-        emptyCell.getChecked() should be(false)
+        emptyCell.checked should be(false)
       }
     }
 
     "set to a specific value" should {
-      val nonEmptyCell = new Cell()
-      nonEmptyCell.init(true, 5, 'w', new Color(255, 255, 255), false)
+      val nonEmptyCell = new Cell(true, 5, 'w', Some(new Color(255, 255, 255)), false)
 
       "return that value" in {
-        nonEmptyCell.getValue() should be(5)
+        nonEmptyCell.value should be(5)
       }
 
       "be set" in {
-        nonEmptyCell.getChecked() should be(true)
+        nonEmptyCell.checked should be(true)
       }
     }
   }

@@ -34,7 +34,7 @@ class Controller(var grid: GridInterface) extends ControllerInterface {
 
   def setColorBack(row: Int, col: Int, color: Color): Unit = {}
 
-  def getColorBack(row: Int, col: Int): Color = null
+  def getColorBack(row: Int, col: Int): Option[Color] = None
 
   def setFlag(row: Int, col: Int, undo: Boolean, command: Boolean): Unit = {}
 

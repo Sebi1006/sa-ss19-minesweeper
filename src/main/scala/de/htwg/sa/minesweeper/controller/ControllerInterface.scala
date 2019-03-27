@@ -111,7 +111,7 @@ trait ControllerInterface extends Publisher {
     * @param col column of the cell.
     * @return the background color of a specified cell.
     */
-  def getColorBack(row: Int, col: Int): Color
+  def getColorBack(row: Int, col: Int): Option[Color]
 
   /**
     * Sets the flag status of a specified cell.

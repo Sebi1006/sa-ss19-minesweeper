@@ -11,8 +11,7 @@ import org.scalatest.junit.JUnitRunner
 class TuiSpec extends WordSpec with Matchers {
 
   "A Minesweeper TUI" should {
-    val grid = Grid()
-    grid.init(10, 10, 10)
+    val grid = Grid(10, 10, 10)
     val controller = new Controller(grid)
     val tui = new Tui(controller)
 
@@ -23,58 +22,58 @@ class TuiSpec extends WordSpec with Matchers {
     "create an empty minesweeper on input 'new'" in {
       tui.lastGame = 0
       tui.processInputLine("new")
-      grid.init(10, 10, 10)
+      val grid = Grid(10, 10, 10)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input '1'" in {
       tui.processInputLine("1")
-      grid.init(10, 10, 10)
+      val grid = Grid(10, 10, 10)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input 'new' for the first time" in {
       tui.processInputLine("new")
-      grid.init(10, 10, 10)
+      val grid = Grid(10, 10, 10)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input '2'" in {
       tui.processInputLine("2")
-      grid.init(16, 16, 70)
+      val grid = Grid(16, 16, 70)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input 'new' for the second time" in {
       tui.processInputLine("new")
-      grid.init(16, 16, 70)
+      val grid = Grid(16, 16, 70)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input '3'" in {
       tui.processInputLine("3")
-      grid.init(20, 20, 150)
+      val grid = Grid(20, 20, 150)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input 'new' for the third time" in {
       tui.processInputLine("new")
-      grid.init(20, 20, 150)
+      val grid = Grid(20, 20, 150)
       controller.grid should be(grid)
     }
 
     "set a cell on input '2 2'" in {
       val input = "2 2"
       tui.processInputLine(input)
-      controller.grid.cell(1, 1).getChecked() should be(true)
+      controller.grid.matrix(1)(1).checked should be(true)
     }
 
     "set a flag on an unchecked cell" in {
       for (i <- 0 until 9; j <- 0 until 9) {
-        if (!controller.grid.cell(i, j).getChecked()) {
+        if (!controller.grid.matrix(i)(j).checked) {
           val input = "f " + (i + 1).toString + " " + (j + 1).toString
           tui.processInputLine(input)
-          controller.grid.cell(i, j).getFlag() should be(true)
+          controller.grid.matrix(i)(j).flag should be(true)
         }
       }
     }
@@ -118,10 +117,10 @@ class TuiSpec extends WordSpec with Matchers {
       tui.processInputLine("1 1")
 
       for (i <- 0 until 10; j <- 0 until 10) {
-        if (controller.grid.cell(i, j).getValue() == -1) {
+        if (controller.grid.matrix(i)(j).value == -1) {
           val input = "f " + (i + 1).toString + " " + (j + 1).toString
           tui.processInputLine(input)
-        } else if (!controller.grid.cell(i, j).getChecked()) {
+        } else if (!controller.grid.matrix(i)(j).checked) {
           val input = (i + 1).toString + " " + (j + 1).toString
           tui.processInputLine(input)
         }

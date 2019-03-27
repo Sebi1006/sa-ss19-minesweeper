@@ -48,25 +48,25 @@ class FileIO extends FileIOInterface {
 
   implicit val cellWrites: Writes[CellInterface] = new Writes[CellInterface] {
     def writes(cell: CellInterface): JsObject = Json.obj(
-      "value" -> cell.getValue(),
-      "checked" -> cell.getChecked(),
-      "flag" -> cell.getFlag(),
-      "color" -> cell.getColor()
+      "value" -> cell.value,
+      "checked" -> cell.checked,
+      "flag" -> cell.flag,
+      "color" -> cell.color
     )
   }
 
   def gridToJson(grid: GridInterface): JsObject = {
     Json.obj(
       "grid" -> Json.obj(
-        "height" -> JsNumber(grid.getHeight()),
-        "width" -> JsNumber(grid.getWidth()),
-        "numMines" -> JsNumber(grid.getNumMines()),
+        "height" -> JsNumber(grid.height),
+        "width" -> JsNumber(grid.width),
+        "numMines" -> JsNumber(grid.numMines),
         "cells" -> Json.toJson(
-          for {row <- 0 until grid.getHeight(); col <- 0 until grid.getWidth()} yield {
+          for {row <- 0 until grid.height; col <- 0 until grid.width} yield {
             Json.obj(
               "row" -> row,
               "col" -> col,
-              "cell" -> Json.toJson(grid.cell(row, col)))
+              "cell" -> Json.toJson(grid.matrix(row)(col)))
           }
         )
       )
