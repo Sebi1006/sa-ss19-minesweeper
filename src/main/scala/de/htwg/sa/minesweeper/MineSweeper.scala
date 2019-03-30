@@ -1,16 +1,15 @@
 package de.htwg.sa.minesweeper
 
 import de.htwg.sa.minesweeper.view.{Gui, Tui}
-import de.htwg.sa.minesweeper.controller.{ControllerFactory, ControllerInterface}
-import de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl.Grid
+import de.htwg.sa.minesweeper.controller.ControllerInterface
 
 import scala.io.StdIn.readLine
-import net.codingwell.scalaguice.InjectorExtensions._
-import com.google.inject.Guice
+import com.google.inject.{Guice, Injector}
 
 object MineSweeper {
 
-  var controller: ControllerInterface = Guice.createInjector(new MineSweeperModule).instance[ControllerFactory].create(Grid(10, 10, 10))
+  val injector: Injector = Guice.createInjector(new MineSweeperModule)
+  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
   val tui = new Tui(controller)
   val gui = new Gui(controller)
 

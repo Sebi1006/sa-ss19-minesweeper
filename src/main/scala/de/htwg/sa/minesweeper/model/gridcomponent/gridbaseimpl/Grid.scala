@@ -5,17 +5,25 @@ import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
 import com.google.inject.Inject
 import scala.util.Random
 
-case class Grid @Inject()(var height: Int, var width: Int, var numMines: Int) extends GridInterface {
+case class Grid @Inject()() extends GridInterface {
 
-  val InitialValue = 10
+  val initialValue = 10
+
+  var height: Int = initialValue
+  var width: Int = initialValue
+  var numMines: Int = initialValue
 
   val row: Array[Int] = Array(-1, -1, -1, 0, 1, 1, 1, 0)
   val col: Array[Int] = Array(-1, 0, 1, 1, 1, 0, -1, -1)
-  val matrix: Vector[Vector[Cell]] = Vector.tabulate(height, width) { (_, _) => new Cell(false, 0, 'w', None, false) }
 
-  height = InitialValue
-  width = InitialValue
-  numMines = InitialValue
+  var matrix: Vector[Vector[Cell]] = Vector.tabulate(height, width) { (_, _) => Cell(false, 0, 'w', None, false) }
+
+  def init(height: Int, width: Int, numMines: Int): Unit = {
+    this.height = height
+    this.width = width
+    this.numMines = numMines
+    this.matrix = Vector.tabulate(height, width) { (_, _) => Cell(false, 0, 'w', None, false) }
+  }
 
   def setMines(rowUsed: Int, colUsed: Int): Unit = {
     val rand: Random = new Random()

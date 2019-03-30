@@ -2,7 +2,6 @@ package de.htwg.sa.minesweeper.controller
 
 import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
 
-import java.awt.Color
 import scala.swing.Publisher
 
 /**
@@ -37,15 +36,6 @@ trait ControllerInterface extends Publisher {
   def setChecked(row: Int, col: Int, undo: Boolean, command: Boolean, dpfs: Boolean): Unit
 
   /**
-    * Returns the cell status of a specified cell of the grid.
-    *
-    * @param row row of the cell.
-    * @param col column of the cell.
-    * @return the cell status.
-    */
-  def getChecked(row: Int, col: Int): Boolean
-
-  /**
     * Returns if a specified cell is a mine or not.
     *
     * @param row row of the cell.
@@ -55,80 +45,12 @@ trait ControllerInterface extends Publisher {
   def getMine(row: Int, col: Int): Boolean
 
   /**
-    * Returns the value of a specified cell.
-    *
-    * @param row row of the cell.
-    * @param col column of the cell.
-    * @return the value of the cell.
-    */
-  def getValue(row: Int, col: Int): Int
-
-  /**
-    * Sets the color of a specified cell.
-    *
-    * @param row   row of the cell.
-    * @param col   column of the cell.
-    * @param color the color to set.
-    */
-  def setColor(row: Int, col: Int, color: Int): Unit
-
-  /**
-    * Returns the color of a specified cell.
-    *
-    * @param row row of the cell.
-    * @param col column of the cell.
-    * @return the color.
-    */
-  def getColor(row: Int, col: Int): Int
-
-  /**
-    * Height of the grid.
-    *
-    * @return the height of the grid.
-    */
-  def height(): Int
-
-  /**
-    * Width of the grid.
-    *
-    * @return the width of the grid.
-    */
-  def width(): Int
-
-  /**
-    * Sets the background color of a specified cell.
-    *
-    * @param row   row of the cell.
-    * @param col   column of the cell.
-    * @param color the color to set the background color.
-    */
-  def setColorBack(row: Int, col: Int, color: Color): Unit
-
-  /**
-    * Returns the background color of a specified cell.
-    *
-    * @param row row of the cell.
-    * @param col column of the cell.
-    * @return the background color of a specified cell.
-    */
-  def getColorBack(row: Int, col: Int): Option[Color]
-
-  /**
     * Sets the flag status of a specified cell.
     *
     * @param row row of the cell.
     * @param col column of the cell.
     */
   def setFlag(row: Int, col: Int, undo: Boolean, command: Boolean): Unit
-
-  /**
-    * Returns the flag status of a specified cell.
-    *
-    * @param row row of the cell.
-    * @param col column of the cell.
-    * @return the flag status.
-    */
-  def getFlag(row: Int, col: Int): Boolean
 
   /**
     * DepthFirstSearch is called whenever a cell with a value of 0 is checked.
@@ -176,16 +98,6 @@ trait ControllerInterface extends Publisher {
     */
   def load(): Unit
 
-}
-
-/**
-  * An interface which creates a controller with a specified grid.
-  */
-trait ControllerFactory {
-  /**
-    * Creates a controller with a specified grid.
-    */
-  def create(grid: GridInterface): ControllerInterface
 }
 
 import scala.swing.event.Event

@@ -54,107 +54,85 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
     val solve: JMenuItem = new JMenuItem("Solve")
     val status: ButtonGroup = new ButtonGroup()
 
-    menuitem.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        controller.createGrid(10, 10, 10)
-        numberOfMines = 10
-        setPanel(10, 10)
-      }
+    menuitem.addActionListener((e: ActionEvent) => {
+      controller.createGrid(10, 10, 10)
+      numberOfMines = 10
+      setPanel(10, 10)
     })
 
-    beginner.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        panelBlock.removeAll()
-        reset()
-        controller.createGrid(10, 10, 10)
-        numberOfMines = 10
-        setPanel(10, 10)
-        savedHeight = 10
-        savedWidth = 10
-        savedNumMines = 10
-        panelBlock.revalidate()
-        panelBlock.repaint()
-        beginner.setSelected(true)
-      }
+    beginner.addActionListener((e: ActionEvent) => {
+      panelBlock.removeAll()
+      reset()
+      controller.createGrid(10, 10, 10)
+      numberOfMines = 10
+      setPanel(10, 10)
+      savedHeight = 10
+      savedWidth = 10
+      savedNumMines = 10
+      panelBlock.revalidate()
+      panelBlock.repaint()
+      beginner.setSelected(true)
     })
 
-    intermediate.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        panelBlock.removeAll()
-        reset()
-        controller.createGrid(16, 16, 70)
-        numberOfMines = 70
-        setPanel(16, 16)
-        savedHeight = 16
-        savedWidth = 16
-        savedNumMines = 70
-        panelBlock.revalidate()
-        panelBlock.repaint()
-        intermediate.setSelected(true)
-      }
+    intermediate.addActionListener((e: ActionEvent) => {
+      panelBlock.removeAll()
+      reset()
+      controller.createGrid(16, 16, 40)
+      numberOfMines = 40
+      setPanel(16, 16)
+      savedHeight = 16
+      savedWidth = 16
+      savedNumMines = 40
+      panelBlock.revalidate()
+      panelBlock.repaint()
+      intermediate.setSelected(true)
     })
 
-    expert.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        panelBlock.removeAll()
-        reset()
-        controller.createGrid(20, 20, 150)
-        numberOfMines = 150
-        setPanel(20, 20)
-        savedHeight = 20
-        savedWidth = 20
-        savedNumMines = 150
-        panelBlock.revalidate()
-        panelBlock.repaint()
-        expert.setSelected(true)
-      }
+    expert.addActionListener((e: ActionEvent) => {
+      panelBlock.removeAll()
+      reset()
+      controller.createGrid(20, 20, 80)
+      numberOfMines = 80
+      setPanel(20, 20)
+      savedHeight = 20
+      savedWidth = 20
+      savedNumMines = 80
+      panelBlock.revalidate()
+      panelBlock.repaint()
+      expert.setSelected(true)
     })
 
-    custom.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        panelBlock.removeAll()
-        reset()
-        var c: Custom = new Custom()
-        panelBlock.revalidate()
-        panelBlock.repaint()
-        custom.setSelected(true)
-      }
+    custom.addActionListener((e: ActionEvent) => {
+      panelBlock.removeAll()
+      reset()
+      var c: Custom = new Custom()
+      panelBlock.revalidate()
+      panelBlock.repaint()
+      custom.setSelected(true)
     })
 
-    exit.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        System.exit(0)
-      }
+    exit.addActionListener((e: ActionEvent) => {
+      System.exit(0)
     })
 
-    undo.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        controller.undo()
-      }
+    undo.addActionListener((e: ActionEvent) => {
+      controller.undo()
     })
 
-    redo.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        controller.redo()
-      }
+    redo.addActionListener((e: ActionEvent) => {
+      controller.redo()
     })
 
-    solve.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        controller.solve()
-      }
+    solve.addActionListener((e: ActionEvent) => {
+      controller.solve()
     })
 
-    save.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        controller.save()
-      }
+    save.addActionListener((e: ActionEvent) => {
+      controller.save()
     })
 
-    load.addActionListener(new ActionListener() {
-      def actionPerformed(e: ActionEvent): Unit = {
-        controller.load()
-      }
+    load.addActionListener((e: ActionEvent) => {
+      controller.load()
     })
 
     setJMenuBar(bar)
@@ -189,7 +167,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
     setResizable(false)
 
     detectedMines = numberOfMines
-    blocks = Array.ofDim[JButton](controller.height(), controller.width())
+    blocks = Array.ofDim[JButton](controller.grid.height, controller.grid.width)
     mouseHandler = new MouseHandler()
 
     getContentPane.removeAll()
@@ -224,10 +202,10 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
         BorderFactory.createEmptyBorder(10, 10, 10, 10),
         BorderFactory.createLoweredBevelBorder()))
     panelBlock.setPreferredSize(new Dimension(frameWidth, frameHeight))
-    panelBlock.setLayout(new GridLayout(0, controller.width()))
+    panelBlock.setLayout(new GridLayout(0, controller.grid.width))
     panelBlock.addContainerListener(this)
 
-    for (i <- 0 until controller.height(); j <- 0 until controller.width()) {
+    for (i <- 0 until controller.grid.height; j <- 0 until controller.grid.width) {
       blocks(i)(j) = new JButton("")
       blocks(i)(j).addMouseListener(mouseHandler)
       panelBlock.add(blocks(i)(j))
@@ -246,9 +224,19 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
     setVisible(true)
   }
 
-  resetButton.addActionListener(new ActionListener() {
-    def actionPerformed(e: ActionEvent): Unit = {
-      try {
+  resetButton.addActionListener((e: ActionEvent) => {
+    try {
+      if (!startTimeBool) {
+        stopWatch.start()
+        startTimeBool = true
+      }
+
+      stopWatch.stop()
+      startTimeBool = false
+      controller.createGrid(savedHeight, savedWidth, savedNumMines)
+      setPanel(savedHeight, savedWidth)
+    } catch {
+      case ex: Exception => {
         if (!startTimeBool) {
           stopWatch.start()
           startTimeBool = true
@@ -258,22 +246,10 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
         startTimeBool = false
         controller.createGrid(savedHeight, savedWidth, savedNumMines)
         setPanel(savedHeight, savedWidth)
-      } catch {
-        case ex: Exception => {
-          if (!startTimeBool) {
-            stopWatch.start()
-            startTimeBool = true
-          }
-
-          stopWatch.stop()
-          startTimeBool = false
-          controller.createGrid(savedHeight, savedWidth, savedNumMines)
-          setPanel(savedHeight, savedWidth)
-        }
       }
-
-      reset()
     }
+
+    reset()
   })
 
   def reset(): Unit = {
@@ -282,14 +258,14 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
       stopWatch.stop()
     }
 
-    for (i <- 0 until controller.height(); j <- 0 until controller.width()) {
-      controller.setColor(i, j, 'w')
+    for (i <- 0 until controller.grid.height; j <- 0 until controller.grid.width) {
+      controller.grid.matrix(i)(j).color = 'w'
     }
   }
 
   def winner(win: Boolean): Unit = {
     if (win) {
-      for (i <- 0 until controller.height(); j <- 0 until controller.width()) {
+      for (i <- 0 until controller.grid.height; j <- 0 until controller.grid.width) {
         blocks(i)(j).removeMouseListener(mouseHandler)
       }
 
@@ -297,7 +273,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
       resetButton.setIcon(icon(13))
       JOptionPane.showMessageDialog(this, "Hurray! You win!")
     } else {
-      for (i <- 0 until controller.height(); j <- 0 until controller.width()) {
+      for (i <- 0 until controller.grid.height; j <- 0 until controller.grid.width) {
         if (controller.getMine(i, j)) {
           blocks(i)(j).removeMouseListener(mouseHandler)
         }
@@ -341,22 +317,19 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
   }
 
   def paint(): Unit = {
-    for (i <- 0 until controller.height(); j <- 0 until controller.width()) {
-      if (controller.getChecked(i, j)) {
-        if (controller.getColorBack(i, j) == Color.LIGHT_GRAY) {
+    for (i <- 0 until controller.grid.height; j <- 0 until controller.grid.width) {
+      if (controller.grid.matrix(i)(j).checked) {
+        if (controller.grid.matrix(i)(j).colorBack.contains(Color.LIGHT_GRAY)) {
           blocks(i)(j).setBackground(Color.LIGHT_GRAY)
         }
 
-        if (controller.getValue(i, j) == -1) {
+        if (controller.grid.matrix(i)(j).value == -1) {
           blocks(i)(j).setIcon(icon(9))
         } else {
-          blocks(i)(j).setIcon(icon(controller.getValue(i, j)))
+          blocks(i)(j).setIcon(icon(controller.grid.matrix(i)(j).value))
         }
-      } else if (controller.getFlag(i, j)) {
+      } else if (controller.grid.matrix(i)(j).flag) {
         blocks(i)(j).setIcon(icon(10))
-      } else {
-        blocks(i)(j).setIcon(null)
-        blocks(i)(j).setBackground(null)
       }
     }
   }
@@ -370,7 +343,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
   class MouseHandler extends MouseAdapter {
 
     override def mouseClicked(me: MouseEvent): Unit = {
-      for (i <- 0 until controller.height(); j <- 0 until controller.width()
+      for (i <- 0 until controller.grid.height; j <- 0 until controller.grid.width
            if me.getSource == blocks(i)(j)) {
         var1 = i
         var2 = j
@@ -379,7 +352,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
       if (me.getButton == MouseEvent.BUTTON1) {
         controller.setChecked(var1, var2, false, true, false)
       } else {
-        if (controller.getFlag(var1, var2)) {
+        if (controller.grid.matrix(var1)(var2).flag) {
           controller.setFlag(var1, var2, true, true)
         } else {
           controller.setFlag(var1, var2, false, true)
@@ -395,11 +368,9 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
     var updater: Thread = _
     var isRunning: Boolean = false
     var i: Long = 0
-    var displayUpdater: Runnable = new Runnable() {
-      def run(): Unit = {
-        displayElapsedTime(i)
-        i += 1
-      }
+    var displayUpdater: Runnable = () => {
+      displayElapsedTime(i)
+      i += 1
     }
 
     def stop(): Unit = {

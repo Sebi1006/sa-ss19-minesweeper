@@ -39,20 +39,20 @@ class Tui(controller: ControllerInterface) extends Reactor {
         lastGame = 1
       }
       case "2" => {
-        createGrid(16, 16, 70)
+        createGrid(16, 16, 40)
         status = 0
         noMineNumber = 186
         lastGame = 2
       }
       case "3" => {
-        createGrid(20, 20, 150)
+        createGrid(20, 20, 80)
         status = 0
         noMineNumber = 250
         lastGame = 3
       }
       case "4" => {
-        var input: String = readLine()
-        var inputCustom = input.split(' ').map(c => c.toInt)
+        val input: String = readLine()
+        val inputCustom = input.split(' ').map(c => c.toInt)
 
         if (inputCustom.length != 3) {
           println("Help: Custom parameters are (height) (width) (mines)")
@@ -90,12 +90,12 @@ class Tui(controller: ControllerInterface) extends Reactor {
             noMineNumber = 90
           }
           case 2 => {
-            createGrid(16, 16, 70)
+            createGrid(16, 16, 40)
             status = 0
             noMineNumber = 186
           }
           case 3 => {
-            createGrid(20, 20, 150)
+            createGrid(20, 20, 80)
             status = 0
             noMineNumber = 250
           }
@@ -130,15 +130,15 @@ class Tui(controller: ControllerInterface) extends Reactor {
             println("Wrong Number of Arguments")
             return
           } else if (vec.length == 2) {
-            var row = vec(0).toString.toInt
-            var col = vec(1).toString.toInt
+            val row = vec(0).toString.toInt
+            val col = vec(1).toString.toInt
             controller.setChecked(row - 1, col - 1, false, true, false)
           } else {
             if (vec(0).toString.equals("f")) {
-              var row = vec(1).toString.toInt
-              var col = vec(2).toString.toInt
+              val row = vec(1).toString.toInt
+              val col = vec(2).toString.toInt
 
-              if (controller.getFlag(row - 1, col - 1)) {
+              if (controller.grid.matrix(row - 1)(col - 1).flag) {
                 controller.setFlag(row - 1, col - 1, true, true)
               } else {
                 controller.setFlag(row - 1, col - 1, false, true)

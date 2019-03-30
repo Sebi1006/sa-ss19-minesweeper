@@ -1,7 +1,7 @@
 package de.htwg.sa.minesweeper.controller.controllerbaseimpl
 
 import de.htwg.sa.minesweeper.controller.{CellChanged, ControllerInterface, GridSizeChanged, Winner}
-import de.htwg.sa.minesweeper.model.gridcomponent.{GridFactory, GridInterface}
+import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
 import de.htwg.sa.minesweeper.util.UndoManager
 import de.htwg.sa.minesweeper.MineSweeperModule
 import de.htwg.sa.minesweeper.model.fileiocomponent.FileIOInterface
@@ -17,8 +17,10 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
   publish(GridSizeChanged(grid.height, grid.width, grid.numMines))
 
   private var undoManager = new UndoManager()
+
   val injector: Injector = Guice.createInjector(new MineSweeperModule())
   val fileIo: FileIOInterface = injector.instance[FileIOInterface]
+
   var noMineCount: Int = (grid.height * grid.width) - grid.numMines
   var mineFound: Int = 0
   var flag: Boolean = true
@@ -26,7 +28,8 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
   var status = 0
 
   def createGrid(height: Int, width: Int, numMines: Int): Unit = {
-    grid = injector.instance[GridFactory].create()
+    grid = injector.instance[GridInterface]
+    grid.init(height, width, numMines)
     status = 0
     noMineCount = (height * width) - numMines
     mineFound = numMines
@@ -38,7 +41,8 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
 
   def createLoadedGrid(height: Int, width: Int, numMines: Int, values: List[Int],
                        checked: List[Boolean], flagList: List[Boolean], color: List[Int]): Unit = {
-    grid = injector.instance[GridFactory].create()
+    grid = injector.instance[GridInterface]
+    grid.init(height, width, numMines)
 
     for (i <- 0 until height; j <- 0 until width) {
       grid.matrix(i)(j).value = values(width - j - 1 + (height - 1 - i) * width)
@@ -117,44 +121,12 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
     }
   }
 
-  def getChecked(row: Int, col: Int): Boolean = {
-    grid.matrix(row)(col).checked
-  }
-
   def getMine(row: Int, col: Int): Boolean = {
     if (grid.matrix(row)(col).value == -1) {
       return true
     }
 
     false
-  }
-
-  def getValue(row: Int, col: Int): Int = {
-    grid.matrix(row)(col).value
-  }
-
-  def setColor(row: Int, col: Int, color: Int): Unit = {
-    grid.matrix(row)(col).color = color
-  }
-
-  def getColor(row: Int, col: Int): Int = {
-    grid.matrix(row)(col).color
-  }
-
-  def height(): Int = {
-    grid.height
-  }
-
-  def width(): Int = {
-    grid.width
-  }
-
-  def setColorBack(row: Int, col: Int, color: Color): Unit = {
-    grid.matrix(row)(col).colorBack = Some(color)
-  }
-
-  def getColorBack(row: Int, col: Int): Option[Color] = {
-    grid.matrix(row)(col).colorBack
   }
 
   def setFlag(row: Int, col: Int, undo: Boolean, command: Boolean): Unit = {
@@ -175,36 +147,32 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
     }
   }
 
-  def getFlag(row: Int, col: Int): Boolean = {
-    grid.matrix(row)(col).flag
-  }
-
   def depthFirstSearch(rowD: Int, colD: Int): Unit = {
-    var R: Int = 0
-    var C: Int = 0
+    var row: Int = 0
+    var col: Int = 0
 
-    if (!getChecked(rowD, colD)) {
+    if (!grid.matrix(rowD)(colD).checked) {
       intList = (rowD, colD) :: intList
     }
 
-    setColor(rowD, colD, 'b')
-    setColorBack(rowD, colD, Color.LIGHT_GRAY)
+    grid.matrix(rowD)(colD).color = 'b'
+    grid.matrix(rowD)(colD).colorBack = Some(Color.LIGHT_GRAY)
     setChecked(rowD, colD, false, false, true)
 
     for (i <- 0 until 8) {
-      R = rowD + grid.rowIndex(i)
-      C = colD + grid.colIndex(i)
+      row = rowD + grid.rowIndex(i)
+      col = colD + grid.colIndex(i)
 
-      if (R >= 0 && R < height && C >= 0 && C < width && getColor(R, C) == 'w') {
-        if (getValue(R, C) == 0 && !getChecked(R, C)) {
-          depthFirstSearch(R, C)
+      if (row >= 0 && row < grid.height && col >= 0 && col < grid.width && grid.matrix(row)(col).color == 'w') {
+        if (grid.matrix(row)(col).value == 0 && !grid.matrix(row)(col).checked) {
+          depthFirstSearch(row, col)
         } else {
-          if (!getChecked(R, C)) {
-            intList = (R, C) :: intList
+          if (!grid.matrix(row)(col).checked) {
+            intList = (row, col) :: intList
           }
 
-          setChecked(R, C, false, false, true)
-          setColor(R, C, 'b')
+          setChecked(row, col, false, false, true)
+          grid.matrix(row)(col).color = 'b'
         }
       }
     }
@@ -279,12 +247,8 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
   }
 
   def getAll(row: Int, col: Int): (Boolean, Boolean, Int, Int, Int, Int, Option[Color], Boolean) = {
-    (getChecked(row, col), getMine(row, col), getValue(row, col), getColor(row, col),
-      height(), width(), getColorBack(row, col), getFlag(row, col))
-  }
-
-  def getStatus(): Int = {
-    this.status
+    (grid.matrix(row)(col).checked, getMine(row, col), grid.matrix(row)(col).value, grid.matrix(row)(col).color,
+      grid.height, grid.width, grid.matrix(row)(col).colorBack, grid.matrix(row)(col).flag)
   }
 
 }

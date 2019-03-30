@@ -1,16 +1,18 @@
 package de.htwg.sa.minesweeper.model.gridcomponent.gridmockimpl
 
-import java.awt.Color
-
 import de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl.Cell
 import de.htwg.sa.minesweeper.model.gridcomponent.{CellInterface, GridInterface}
+
+import java.awt.Color
 
 class Grid extends GridInterface {
 
   var height: Int = 0
   var width: Int = 0
   var numMines: Int = 0
-  val matrix: Vector[Vector[Cell]] = Vector.tabulate(height, width) { (_, _) => new Cell(false, 0, 'w', None, false) }
+  var matrix: Vector[Vector[Cell]] = Vector.tabulate(height, width) { (_, _) => Cell(false, 0, 'w', None, false) }
+
+  def init(height: Int, width: Int, numMines: Int): Unit = {}
 
   def setMines(rowUsed: Int, colUsed: Int): Unit = {}
 
@@ -32,6 +34,6 @@ object EmptyCell extends CellInterface {
   var colorBack: Option[Color] = None
   var flag: Boolean = false
 
-  def getAll(): (Int, Boolean, Int, Option[Color], Boolean) = (0, false, 'w', None, false)
+  def getAll(): (Boolean, Int, Int, Option[Color], Boolean) = (false, 0, 'w', None, false)
 
 }

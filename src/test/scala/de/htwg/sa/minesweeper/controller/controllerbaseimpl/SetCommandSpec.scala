@@ -12,7 +12,8 @@ class SetCommandSpec extends WordSpec with Matchers {
 
   "A Controller" when {
     "empty" should {
-      val grid = Grid(10, 10, 10)
+      val grid = Grid()
+      grid.init(10, 10, 10)
       val controller = new Controller(grid)
 
       "undo a step correctly" in {

@@ -11,7 +11,8 @@ import org.scalatest.junit.JUnitRunner
 class TuiSpec extends WordSpec with Matchers {
 
   "A Minesweeper TUI" should {
-    val grid = Grid(10, 10, 10)
+    val grid = Grid()
+    grid.init(10, 10, 10)
     val controller = new Controller(grid)
     val tui = new Tui(controller)
 
@@ -22,43 +23,50 @@ class TuiSpec extends WordSpec with Matchers {
     "create an empty minesweeper on input 'new'" in {
       tui.lastGame = 0
       tui.processInputLine("new")
-      val grid = Grid(10, 10, 10)
+      val grid = Grid()
+      grid.init(10, 10, 10)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input '1'" in {
       tui.processInputLine("1")
-      val grid = Grid(10, 10, 10)
+      val grid = Grid()
+      grid.init(10, 10, 10)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input 'new' for the first time" in {
       tui.processInputLine("new")
-      val grid = Grid(10, 10, 10)
+      val grid = Grid()
+      grid.init(10, 10, 10)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input '2'" in {
       tui.processInputLine("2")
-      val grid = Grid(16, 16, 70)
+      val grid = Grid()
+      grid.init(16, 16, 40)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input 'new' for the second time" in {
       tui.processInputLine("new")
-      val grid = Grid(16, 16, 70)
+      val grid = Grid()
+      grid.init(16, 16, 40)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input '3'" in {
       tui.processInputLine("3")
-      val grid = Grid(20, 20, 150)
+      val grid = Grid()
+      grid.init(20, 20, 80)
       controller.grid should be(grid)
     }
 
     "create an empty minesweeper on input 'new' for the third time" in {
       tui.processInputLine("new")
-      val grid = Grid(20, 20, 150)
+      val grid = Grid()
+      grid.init(20, 20, 80)
       controller.grid should be(grid)
     }
 
@@ -90,7 +98,7 @@ class TuiSpec extends WordSpec with Matchers {
 
     "solve a minesweeper game on input 's'" in {
       tui.processInputLine("s")
-      controller.getChecked(9, 9) should be(true)
+      controller.grid.matrix(9)(9).checked should be(true)
     }
 
     "save and load a minesweeper game on input 'save' and 'load'" in {
@@ -100,7 +108,7 @@ class TuiSpec extends WordSpec with Matchers {
       tui.processInputLine("save")
       tui.processInputLine("1")
       tui.processInputLine("load")
-      controller.getChecked(1, 1) should be(true)
+      controller.grid.matrix(1)(1).checked should be(true)
     }
 
     "lose a minesweeper game" in {

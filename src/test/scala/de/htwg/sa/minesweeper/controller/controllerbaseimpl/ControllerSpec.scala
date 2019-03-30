@@ -12,11 +12,12 @@ class ControllerSpec extends WordSpec with Matchers {
 
   "A Controller" when {
     "empty" should {
-      val grid = Grid(10, 10, 10)
+      val grid = Grid()
+      grid.init(10, 10, 10)
       val controller = new Controller(grid)
 
       "handle undo/redo of solving a grid correctly" in {
-        controller.getAll(1, 1) should be((false, false, 0, 'w', 10, 10, null, false))
+        controller.getAll(1, 1) should be((false, false, 0, 'w', 10, 10, None, false))
         controller.grid.matrix(0)(0).checked should be(false)
         controller.solve()
         controller.grid.matrix(0)(0).checked should be(true)
@@ -47,9 +48,9 @@ class ControllerSpec extends WordSpec with Matchers {
         }
 
         controller.undo()
-        controller.getChecked(row, col) should be(false)
+        controller.grid.matrix(row)(col).checked should be(false)
         controller.redo()
-        controller.getChecked(row, col) should be(true)
+        controller.grid.matrix(row)(col).checked should be(true)
       }
 
       "create a grid" in {
@@ -61,7 +62,8 @@ class ControllerSpec extends WordSpec with Matchers {
     }
 
     "without mines" should {
-      val grid = Grid(10, 10, 0)
+      val grid = Grid()
+      grid.init(10, 10, 0)
       val controller = new Controller(grid)
       controller.setChecked(0, 0, false, false, false)
 
@@ -79,33 +81,35 @@ class ControllerSpec extends WordSpec with Matchers {
     }
 
     "only mines" should {
-      val grid = Grid(2, 2, 2)
+      val grid = Grid()
+      grid.init(2, 2, 2)
       val controller = new Controller(grid)
       controller.setChecked(0, 0, false, false, false)
 
       "solve" in {
         for (i <- 0 until 2) {
-          if (controller.getValue(1, i) == -1) {
+          if (controller.grid.matrix(1)(i).value == -1) {
             controller.getMine(1, i) should be(true)
             controller.setChecked(1, i, false, false, false)
-            controller.getChecked(1, i) should be(true)
+            controller.grid.matrix(1)(i).checked should be(true)
             controller.winner(1, i, true)
-            controller.getStatus() should be(0)
+            controller.status should be(0)
           }
         }
       }
     }
 
     "big grid" should {
-      val grid = Grid(30, 30, 30)
+      val grid = Grid()
+      grid.init(30, 30, 30)
       val controller = new Controller(grid)
       controller.setChecked(0, 0, false, false, false)
 
       "dpfs should get" in {
         for (i <- 0 until 30; j <- 0 until 30) {
-          if (controller.getValue(i, j) == 0) {
+          if (controller.grid.matrix(i)(j).value == 0) {
             controller.setChecked(i, j, false, false, false)
-            controller.getChecked(i, j) should be(true)
+            controller.grid.matrix(i)(j).checked should be(true)
           }
         }
       }

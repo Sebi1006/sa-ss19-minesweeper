@@ -1,10 +1,8 @@
 package de.htwg.sa.minesweeper.model.fileiocomponent.fileiojsonimpl
 
-import de.htwg.sa.minesweeper.MineSweeperModule
 import de.htwg.sa.minesweeper.model.fileiocomponent.FileIOInterface
 import de.htwg.sa.minesweeper.model.gridcomponent.{CellInterface, GridInterface}
 
-import com.google.inject.Guice
 import play.api.libs.json._
 import scala.io.Source
 
@@ -16,15 +14,12 @@ class FileIO extends FileIOInterface {
     val height = (json \ "grid" \ "height").get.toString.toInt
     val width = (json \ "grid" \ "width").get.toString.toInt
     val numMines = (json \ "grid" \ "numMines").get.toString.toInt
-    val injector = Guice.createInjector(new MineSweeperModule())
     var listValue: List[Int] = Nil
     var listChecked: List[Boolean] = Nil
     var listFlag: List[Boolean] = Nil
     var listColor: List[Int] = Nil
 
     for (i <- 0 until height; j <- 0 until width) {
-      val row = (json \\ "row") (i).as[Int]
-      val col = (json \\ "col") (j).as[Int]
       val cell = (json \\ "cell") (j + (i * width))
       val value = (cell \ "value").as[Int]
       listValue = value :: listValue
@@ -46,14 +41,12 @@ class FileIO extends FileIOInterface {
     pw.close()
   }
 
-  implicit val cellWrites: Writes[CellInterface] = new Writes[CellInterface] {
-    def writes(cell: CellInterface): JsObject = Json.obj(
-      "value" -> cell.value,
-      "checked" -> cell.checked,
-      "flag" -> cell.flag,
-      "color" -> cell.color
-    )
-  }
+  implicit val cellWrites: Writes[CellInterface] = (cell: CellInterface) => Json.obj(
+    "value" -> cell.value,
+    "checked" -> cell.checked,
+    "flag" -> cell.flag,
+    "color" -> cell.color
+  )
 
   def gridToJson(grid: GridInterface): JsObject = {
     Json.obj(

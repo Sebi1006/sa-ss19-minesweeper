@@ -12,7 +12,16 @@ trait GridInterface {
   var height: Int
   var width: Int
   var numMines: Int
-  val matrix: Vector[Vector[Cell]]
+  var matrix: Vector[Vector[Cell]]
+
+  /**
+    * Initialization of the grid with different values than the default parameters.
+    *
+    * @param height   height of the grid.
+    * @param width    width of the grid.
+    * @param numMines number of mines to place in the grid.
+    */
+  def init(height: Int, width: Int, numMines: Int): Unit
 
   /**
     * Initialization of the grid with a pre-given number of mines.
@@ -58,16 +67,6 @@ trait GridInterface {
 }
 
 /**
-  * An interface which creates a grid with default values.
-  */
-trait GridFactory {
-  /**
-    * Creates a grid with default values.
-    */
-  def create(): GridInterface
-}
-
-/**
   * A cell interface to define the cells of a minesweeper board.
   */
 trait CellInterface {
@@ -81,20 +80,8 @@ trait CellInterface {
   /**
     * Returns every value of the cell as a tuple.
     *
-    * @return value, checked, color, background color, flag.
+    * @return checked, value, color, background color, flag.
     */
-  def getAll(): (Int, Boolean, Int, Option[Color], Boolean)
+  def getAll(): (Boolean, Int, Int, Option[Color], Boolean)
 
-}
-
-/**
-  * An interface which creates a cell with default parameters.
-  */
-trait CellFactory {
-  /**
-    * Creates a cell with default parameters.
-    *
-    * @return the created cell.
-    */
-  def create(): CellInterface
 }
