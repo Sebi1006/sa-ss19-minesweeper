@@ -1,7 +1,9 @@
 package de.htwg.sa.minesweeper.util
 
 trait Observer {
+
   def update(): Unit
+
 }
 
 class Observable {

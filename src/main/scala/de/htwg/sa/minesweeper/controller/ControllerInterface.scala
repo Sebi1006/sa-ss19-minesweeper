@@ -47,8 +47,10 @@ trait ControllerInterface extends Publisher {
   /**
     * Sets the flag status of a specified cell.
     *
-    * @param row row of the cell.
-    * @param col column of the cell.
+    * @param row     row of the cell.
+    * @param col     column of the cell.
+    * @param undo    specifies if it should unset it instead.
+    * @param command specifies if the call comes from a command, to not trigger an endless loop.
     */
   def setFlag(row: Int, col: Int, undo: Boolean, command: Boolean): Unit
 

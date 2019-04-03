@@ -9,7 +9,7 @@ class GridSpec extends WordSpec with Matchers {
 
   "A Grid" when {
     "to be constructed" should {
-      "created properly but empty" should {
+      "be created properly but empty" should {
         val grid = Grid()
         grid.init(12, 12, 12)
         val smallGrid = grid
@@ -34,7 +34,7 @@ class GridSpec extends WordSpec with Matchers {
         }
       }
 
-      "pre-filled with values 1 to n" should {
+      "be pre-filled with values 1 to n" should {
         val grid = Grid()
         grid.init(2, 2, 2)
         val tinyGrid = grid

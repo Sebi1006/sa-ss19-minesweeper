@@ -72,7 +72,7 @@ class ControllerSpec extends WordSpec with Matchers {
         controller.grid.matrix(9)(9).checked should be(true)
       }
 
-      "after save and load" in {
+      "be correct after save and load" in {
         controller.save()
         controller.createGrid(10, 10, 10)
         controller.load()
@@ -86,7 +86,7 @@ class ControllerSpec extends WordSpec with Matchers {
       val controller = new Controller(grid)
       controller.setChecked(0, 0, false, false, false)
 
-      "solve" in {
+      "solve correctly" in {
         for (i <- 0 until 2) {
           if (controller.grid.matrix(1)(i).value == -1) {
             controller.getMine(1, i) should be(true)
@@ -105,7 +105,7 @@ class ControllerSpec extends WordSpec with Matchers {
       val controller = new Controller(grid)
       controller.setChecked(0, 0, false, false, false)
 
-      "dpfs should get" in {
+      "dpfs work correctly" in {
         for (i <- 0 until 30; j <- 0 until 30) {
           if (controller.grid.matrix(i)(j).value == 0) {
             controller.setChecked(i, j, false, false, false)

@@ -17,10 +17,11 @@ class ObservableSpec extends WordSpec with Matchers {
     "do everything correctly" in {
       val emptyObserver = new EmptyObserver()
       val observable = new Observable()
-      observable.subscribers
+      val subscribers = observable.subscribers
       observable.add(emptyObserver)
       observable.remove(emptyObserver)
       observable.notifyObservers()
+      observable.subscribers should be(subscribers)
     }
   }
 

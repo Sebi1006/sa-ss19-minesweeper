@@ -41,13 +41,13 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "2" => {
         createGrid(16, 16, 40)
         status = 0
-        noMineNumber = 186
+        noMineNumber = 216
         lastGame = 2
       }
       case "3" => {
         createGrid(20, 20, 80)
         status = 0
-        noMineNumber = 250
+        noMineNumber = 320
         lastGame = 3
       }
       case "4" => {
@@ -92,12 +92,12 @@ class Tui(controller: ControllerInterface) extends Reactor {
           case 2 => {
             createGrid(16, 16, 40)
             status = 0
-            noMineNumber = 186
+            noMineNumber = 216
           }
           case 3 => {
             createGrid(20, 20, 80)
             status = 0
-            noMineNumber = 250
+            noMineNumber = 320
           }
           case 4 => {
             createGrid(savedHeight, savedWidth, savedMines)

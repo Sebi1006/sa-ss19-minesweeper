@@ -105,7 +105,6 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
     custom.addActionListener((e: ActionEvent) => {
       panelBlock.removeAll()
       reset()
-      var c: Custom = new Custom()
       panelBlock.revalidate()
       panelBlock.repaint()
       custom.setSelected(true)
