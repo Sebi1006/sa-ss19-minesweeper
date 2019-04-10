@@ -13,16 +13,14 @@ trait ControllerInterface extends Publisher {
   var grid: GridInterface
   var noMineCount: Int
   var mineFound: Int
-  var flag: Boolean
+  var minesSet: Boolean
 
   /**
     * Creates a minesweeper grid with the given parameters.
     *
-    * @param height   height of the grid.
-    * @param width    width of the grid.
-    * @param numMines number of mines in the grid.
+    * @param size size of the minesweeper grid.
     */
-  def createGrid(height: Int, width: Int, numMines: Int): Unit
+  def createGrid(size: Int): Unit
 
   /**
     * Sets a cell status of a specified cell of the grid.
@@ -31,9 +29,9 @@ trait ControllerInterface extends Publisher {
     * @param col     column of the cell.
     * @param undo    specifies if it should unset it instead.
     * @param command specifies if the call comes from a command, to not trigger an endless loop.
-    * @param dpfs    specifies if the call comes from depthFirstSearch, to trigger less publishes.
+    * @param dfs     specifies if the call comes from depthFirstSearch, to trigger less publishes.
     */
-  def setChecked(row: Int, col: Int, undo: Boolean, command: Boolean, dpfs: Boolean): Unit
+  def setChecked(row: Int, col: Int, undo: Boolean, command: Boolean, dfs: Boolean): Unit
 
   /**
     * Returns if a specified cell is a mine or not.

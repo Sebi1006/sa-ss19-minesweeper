@@ -1,6 +1,6 @@
 package de.htwg.sa.minesweeper.model.gridcomponent
 
-import de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl.Cell
+import de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl.{Cell, Matrix}
 
 import java.awt.Color
 
@@ -9,19 +9,8 @@ import java.awt.Color
   */
 trait GridInterface {
 
-  var height: Int
-  var width: Int
-  var numMines: Int
-  var matrix: Vector[Vector[Cell]]
-
-  /**
-    * Initialization of the grid with different values than the default parameters.
-    *
-    * @param height   height of the grid.
-    * @param width    width of the grid.
-    * @param numMines number of mines to place in the grid.
-    */
-  def init(height: Int, width: Int, numMines: Int): Unit
+  val size: Int
+  val matrix: Matrix[Cell]
 
   /**
     * Initialization of the grid with a pre-given number of mines.
@@ -30,14 +19,57 @@ trait GridInterface {
     *
     * @param rowUsed row of the cell which was first clicked on.
     * @param colUsed column of the cell which was first clicked on.
+    * @return the updated Grid.
     */
-  def setMines(rowUsed: Int, colUsed: Int): Unit
+  def placeMines(rowUsed: Int, colUsed: Int): GridInterface
 
   /**
     * Calculates the values of each cell of the grid, depending on the number of neighbouring mines.
     * Cells with mines have a value of -1.
+    *
+    * @return the updated Grid.
     */
-  def setValues(): Unit
+  def calculateValues(): GridInterface
+
+  /**
+    * Sets the cell status of a specified cell.
+    *
+    * @param row     row of the cell.
+    * @param col     column of the cell.
+    * @param checked new value for boolean checked.
+    * @return the updated Grid.
+    */
+  def setChecked(row: Int, col: Int, checked: Boolean): GridInterface
+
+  /**
+    * Sets the flag status of a specified cell.
+    *
+    * @param row  row of the cell.
+    * @param col  column of the cell.
+    * @param flag new value for boolean flag.
+    * @return the updated Grid.
+    */
+  def setFlag(row: Int, col: Int, flag: Boolean): GridInterface
+
+  /**
+    * Sets the color status of a specified cell.
+    *
+    * @param row   row of the cell.
+    * @param col   column of the cell.
+    * @param color new value for integer color.
+    * @return the updated Grid.
+    */
+  def setColor(row: Int, col: Int, color: Int): GridInterface
+
+  /**
+    * Sets the actual color of a specified cell.
+    *
+    * @param row       row of the cell.
+    * @param col       column of the cell.
+    * @param colorBack new value for color.
+    * @return the updated Grid.
+    */
+  def setColorBack(row: Int, col: Int, colorBack: Color): GridInterface
 
   /**
     * Returns the given index of the array (-1, -1, -1, 0, 1, 1, 1, 0).
@@ -62,7 +94,7 @@ trait GridInterface {
     *
     * @return a list of row and col indices for every cell that was checked that way.
     */
-  def solve(): List[(Int, Int)]
+  def solve(): (List[(Int, Int)], GridInterface)
 
 }
 
@@ -71,11 +103,11 @@ trait GridInterface {
   */
 trait CellInterface {
 
-  var checked: Boolean
-  var value: Int
-  var color: Int
-  var colorBack: Option[Color]
-  var flag: Boolean
+  val checked: Boolean
+  val value: Int
+  val color: Int
+  val colorBack: Option[Color]
+  val flag: Boolean
 
   /**
     * Returns every value of the cell as a tuple.

@@ -11,10 +11,9 @@ trait FileIOInterface {
     * Description of the load method which loads a certain file as a minesweeper grid.
     * If successful, the parameters can be used to create a minesweeper grid.
     *
-    * @return height, width, number of mines, list of cell values, list of cell checked states,
-    *         list of cell flag states, list of cell colors.
+    * @return the grid and the number of mines.
     */
-  def load(): (Int, Int, Int, List[Int], List[Boolean], List[Boolean], List[Int])
+  def load(): (Option[GridInterface], Int)
 
   /**
     * Description of the save method to save a certain minesweeper grid.
