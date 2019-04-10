@@ -20,7 +20,6 @@ Software Architecture at the University of Applied Sciences HTWG Konstanz.
 * **1** for beginner grid
 * **2** for advanced grid
 * **3** for expert grid
-* **4** to set a custom grid with parameters in the next line (height) (width) (mines)
 * **(row) (column)** to set a cell
 * **f (row) (column)** to set a flag
 * **s** to solve the current game

@@ -94,7 +94,7 @@ class TuiSpec extends WordSpec with Matchers {
     "lose a minesweeper game" in {
       tui.processInputLine("1")
 
-      for (i <- 0 until 9; j <- 0 until 9) {
+      for (i <- 0 until 10; j <- 0 until 10) {
         val input = (i + 1).toString + " " + (j + 1).toString
         tui.processInputLine(input)
       }

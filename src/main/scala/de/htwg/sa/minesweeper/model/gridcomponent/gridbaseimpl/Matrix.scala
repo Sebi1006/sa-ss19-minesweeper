@@ -3,9 +3,7 @@ package de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl
 case class Matrix[T](rows: Vector[Vector[T]]) {
 
   def this(size: Int, cell: T) = {
-    this(Vector.tabulate(size, size) { (row, col) =>
-      cell
-    })
+    this(Vector.tabulate(size, size) { (_, _) => cell })
   }
 
   val size: Int = rows.size
@@ -15,9 +13,7 @@ case class Matrix[T](rows: Vector[Vector[T]]) {
   }
 
   def fill(cell: T): Matrix[T] = {
-    copy(Vector.tabulate(size, size) { (row, col) =>
-      cell
-    })
+    copy(Vector.tabulate(size, size) { (_, _) => cell })
   }
 
   def replaceCell(row: Int, col: Int, cell: T): Matrix[T] = {

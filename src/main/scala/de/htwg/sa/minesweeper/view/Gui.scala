@@ -53,14 +53,14 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
     val solve: JMenuItem = new JMenuItem("Solve")
     val status: ButtonGroup = new ButtonGroup()
 
-    menuitem.addActionListener((e: ActionEvent) => {
+    menuitem.addActionListener((_: ActionEvent) => {
       controller.createGrid(10)
       numberOfMines = 10
       setPanel(10, 10)
       beginner.setSelected(true)
     })
 
-    beginner.addActionListener((e: ActionEvent) => {
+    beginner.addActionListener((_: ActionEvent) => {
       panelBlock.removeAll()
       reset()
       controller.createGrid(10)
@@ -74,7 +74,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
       beginner.setSelected(true)
     })
 
-    intermediate.addActionListener((e: ActionEvent) => {
+    intermediate.addActionListener((_: ActionEvent) => {
       panelBlock.removeAll()
       reset()
       controller.createGrid(16)
@@ -88,7 +88,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
       intermediate.setSelected(true)
     })
 
-    expert.addActionListener((e: ActionEvent) => {
+    expert.addActionListener((_: ActionEvent) => {
       panelBlock.removeAll()
       reset()
       controller.createGrid(20)
@@ -102,27 +102,27 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
       expert.setSelected(true)
     })
 
-    exit.addActionListener((e: ActionEvent) => {
+    exit.addActionListener((_: ActionEvent) => {
       System.exit(0)
     })
 
-    undo.addActionListener((e: ActionEvent) => {
+    undo.addActionListener((_: ActionEvent) => {
       controller.undo()
     })
 
-    redo.addActionListener((e: ActionEvent) => {
+    redo.addActionListener((_: ActionEvent) => {
       controller.redo()
     })
 
-    solve.addActionListener((e: ActionEvent) => {
+    solve.addActionListener((_: ActionEvent) => {
       controller.solve()
     })
 
-    save.addActionListener((e: ActionEvent) => {
+    save.addActionListener((_: ActionEvent) => {
       controller.save()
     })
 
-    load.addActionListener((e: ActionEvent) => {
+    load.addActionListener((_: ActionEvent) => {
       controller.load()
     })
 
@@ -164,14 +164,14 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
 
     tfMine = new JTextField("" + numberOfMines, 3)
     tfMine.setEditable(false)
-    tfMine.setFont(new Font("DigtalFont.TTF", Font.BOLD, 25))
+    tfMine.setFont(new Font("DigitalFont.TTF", Font.BOLD, 25))
     tfMine.setBackground(Color.BLACK)
     tfMine.setForeground(Color.RED)
     tfMine.setBorder(BorderFactory.createLoweredBevelBorder())
 
     tfTime = new JTextField("000", 3)
     tfTime.setEditable(false)
-    tfTime.setFont(new Font("DigtalFont.TTF", Font.BOLD, 25))
+    tfTime.setFont(new Font("DigitalFont.TTF", Font.BOLD, 25))
     tfTime.setBackground(Color.BLACK)
     tfTime.setForeground(Color.RED)
     tfTime.setBorder(BorderFactory.createLoweredBevelBorder())
@@ -213,7 +213,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
     setVisible(true)
   }
 
-  resetButton.addActionListener((e: ActionEvent) => {
+  resetButton.addActionListener((_: ActionEvent) => {
     try {
       if (!startTimeBool) {
         stopWatch.start()
@@ -225,7 +225,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
       controller.createGrid(savedHeight)
       setPanel(savedHeight, savedWidth)
     } catch {
-      case ex: Exception => {
+      case _: Exception => {
         if (!startTimeBool) {
           stopWatch.start()
           startTimeBool = true
@@ -310,11 +310,14 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
         }
 
         if (controller.grid.matrix.cell(i, j).value == -1) {
+          blocks(i)(j).setBackground(Color.LIGHT_GRAY)
           blocks(i)(j).setIcon(icon(9))
         } else {
+          blocks(i)(j).setBackground(Color.LIGHT_GRAY)
           blocks(i)(j).setIcon(icon(controller.grid.matrix.cell(i, j).value))
         }
       } else if (controller.grid.matrix.cell(i, j).flag) {
+        blocks(i)(j).setBackground(Color.LIGHT_GRAY)
         blocks(i)(j).setIcon(icon(10))
       } else {
         blocks(i)(j).setBackground(null)
@@ -368,9 +371,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
 
       try updater.join()
       catch {
-        case ie: InterruptedException => {
-          ie.printStackTrace(System.err)
-        }
+        case ie: InterruptedException => ie.printStackTrace(System.err)
       }
 
       displayElapsedTime(elapsed)
@@ -392,12 +393,8 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
         SwingUtilities.invokeAndWait(displayUpdater)
         Thread.sleep(1000)
       } catch {
-        case ite: java.lang.reflect.InvocationTargetException => {
-          ite.printStackTrace(System.err)
-        }
-        case ie: InterruptedException => {
-          ie.printStackTrace(System.err)
-        }
+        case ite: java.lang.reflect.InvocationTargetException => ite.printStackTrace(System.err)
+        case ie: InterruptedException => ie.printStackTrace(System.err)
       }
     }
 
