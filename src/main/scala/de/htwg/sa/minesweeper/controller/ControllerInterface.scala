@@ -22,6 +22,8 @@ trait ControllerInterface extends Publisher {
     */
   def createGrid(size: Int): Unit
 
+
+  //Test Kommentar
   /**
     * Sets a cell status of a specified cell of the grid.
     *
