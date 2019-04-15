@@ -19,6 +19,7 @@ class ControllerSpec extends WordSpec with Matchers {
         controller.getAll(1, 1) should be((false, false, 0, 'w', 10, 10, None, false))
         controller.grid.matrix.cell(0, 0).checked should be(false)
         controller.solve()
+        Thread.sleep(500)
         controller.grid.matrix.cell(0, 0).checked should be(true)
         controller.undo()
         controller.grid.matrix.cell(0, 0).checked should be(false)

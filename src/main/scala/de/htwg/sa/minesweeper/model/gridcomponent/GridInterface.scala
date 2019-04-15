@@ -3,6 +3,7 @@ package de.htwg.sa.minesweeper.model.gridcomponent
 import de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl.{Cell, Matrix}
 
 import java.awt.Color
+import scala.concurrent.Future
 
 /**
   * A grid interface to define the grid of a minesweeper board.
@@ -94,7 +95,7 @@ trait GridInterface {
     *
     * @return a list of row and col indices for every cell that was checked that way.
     */
-  def solve(): (List[(Int, Int)], GridInterface)
+  def solve(): Future[(List[(Int, Int)], GridInterface)]
 
 }
 

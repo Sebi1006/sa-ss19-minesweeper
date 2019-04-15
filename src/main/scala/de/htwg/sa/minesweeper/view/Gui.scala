@@ -146,6 +146,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
     edit.addSeparator()
     edit.add(solve)
     bar.add(edit)
+    beginner.setSelected(true)
   }
 
   def setPanel(height: Int, width: Int): Unit = {

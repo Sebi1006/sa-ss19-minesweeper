@@ -10,6 +10,8 @@ import net.codingwell.scalaguice.InjectorExtensions._
 import com.google.inject.name.Names
 import com.google.inject.{Guice, Inject, Injector}
 import scala.swing.Publisher
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
 import java.awt.Color
 
 class Controller @Inject()(var grid: GridInterface) extends ControllerInterface with Publisher {
@@ -213,11 +215,17 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
   }
 
   def solve(): Unit = {
-    val tuple = grid.solve()
-    intList = tuple._1
-    grid = tuple._2
-    undoManager.doStep(new SetCommand(0, 0, true, intList, 4, this))
-    publish(CellChanged())
+    val future = grid.solve()
+
+    future.onComplete {
+      case Success(value) => {
+        intList = value._1
+        grid = value._2
+        undoManager.doStep(new SetCommand(0, 0, true, intList, 4, this))
+        publish(CellChanged())
+      }
+      case Failure(e) => println(e)
+    }
   }
 
   def save(): Unit = {

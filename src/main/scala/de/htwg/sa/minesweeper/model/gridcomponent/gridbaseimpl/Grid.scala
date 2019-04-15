@@ -3,6 +3,8 @@ package de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl
 import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
 
 import java.awt.Color
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 case class Grid(matrix: Matrix[Cell], size: Int) extends GridInterface {
 
@@ -91,9 +93,11 @@ case class Grid(matrix: Matrix[Cell], size: Int) extends GridInterface {
     this.colArray(i)
   }
 
-  def solve(): (List[(Int, Int)], GridInterface) = {
+  def solve(): Future[(List[(Int, Int)], GridInterface)] = {
     val s = new Solver(this)
-    s.solve()
+    Future {
+      s.solve()
+    }
   }
 
   override def toString: String = {

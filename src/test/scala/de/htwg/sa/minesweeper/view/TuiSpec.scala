@@ -78,6 +78,7 @@ class TuiSpec extends WordSpec with Matchers {
 
     "solve a minesweeper game on input 's'" in {
       tui.processInputLine("s")
+      Thread.sleep(500)
       controller.grid.matrix.cell(9, 9).checked should be(true)
     }
 
