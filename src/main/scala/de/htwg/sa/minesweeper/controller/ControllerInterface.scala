@@ -89,6 +89,11 @@ trait ControllerInterface extends Publisher {
   def solve(): Unit
 
   /**
+    * Solves the grid with the actor system.
+    */
+  def solveActor(value: (List[(Int, Int)], GridInterface)): Unit
+
+  /**
     * Saves the grid of the controller with a FileIO (see FileIOInterface).
     */
   def save(): Unit

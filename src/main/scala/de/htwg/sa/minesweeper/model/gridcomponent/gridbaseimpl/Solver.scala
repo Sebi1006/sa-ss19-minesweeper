@@ -1,17 +1,19 @@
 package de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl
 
 import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
+import de.htwg.sa.minesweeper.controller.controllerbaseimpl.MyActor.{PingMessage, StartMessage}
 
+import akka.actor.{Actor, ActorRef}
 import java.awt.Color
 
-class Solver(grid: GridInterface) {
+class Solver(grid: GridInterface, controller: ActorRef) extends Actor {
 
-  def solve(): (List[(Int, Int)], GridInterface) = {
+  def solve(value: (List[(Int, Int)], GridInterface)): (List[(Int, Int)], GridInterface) = {
     var intList: List[(Int, Int)] = Nil
-    var gridBase = grid
+    var gridBase = value._2
 
-    for (i <- 0 until grid.size; j <- 0 until grid.size) {
-      if (!grid.matrix.cell(i, j).checked) {
+    for (i <- 0 until gridBase.size; j <- 0 until gridBase.size) {
+      if (!gridBase.matrix.cell(i, j).checked) {
         intList = (i, j) :: intList
       }
 
@@ -21,6 +23,10 @@ class Solver(grid: GridInterface) {
     }
 
     (intList, gridBase)
+  }
+
+  override def receive: Receive = {
+    case StartMessage(value) => controller ! PingMessage(solve(value))
   }
 
 }
