@@ -1,7 +1,7 @@
 package de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl
 
 import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
-import de.htwg.sa.minesweeper.controller.controllerbaseimpl.MyActor.{PingMessage, StartMessage}
+import de.htwg.sa.minesweeper.controller.controllerbaseimpl.MyActor.{SolverMessage, ControllerMessage}
 
 import akka.actor.{Actor, ActorRef}
 import java.awt.Color
@@ -26,7 +26,7 @@ class Solver(grid: GridInterface, controller: ActorRef) extends Actor {
   }
 
   override def receive: Receive = {
-    case StartMessage(value) => controller ! PingMessage(solve(value))
+    case ControllerMessage(value) => controller ! SolverMessage(solve(value))
   }
 
 }

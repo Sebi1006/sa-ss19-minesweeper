@@ -5,7 +5,7 @@ import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
 import de.htwg.sa.minesweeper.util.UndoManager
 import de.htwg.sa.minesweeper.MineSweeperModule
 import de.htwg.sa.minesweeper.model.fileiocomponent.FileIOInterface
-import de.htwg.sa.minesweeper.controller.controllerbaseimpl.MyActor.StartMessage
+import de.htwg.sa.minesweeper.controller.controllerbaseimpl.MyActor.ControllerMessage
 import de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl.Solver
 
 import net.codingwell.scalaguice.InjectorExtensions._
@@ -21,9 +21,9 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
   val injector: Injector = Guice.createInjector(new MineSweeperModule())
   val fileIo: FileIOInterface = injector.instance[FileIOInterface]
 
-  val actorSystem = ActorSystem("PingPongSystem")
-  val actorController: ActorRef = actorSystem.actorOf(Props(new ControllerActor(this)), name = "pong")
-  val actorSolver: ActorRef = actorSystem.actorOf(Props(new Solver(grid, actorController)), name = "ping")
+  val actorSystem = ActorSystem("MinesweeperSystem")
+  val actorController: ActorRef = actorSystem.actorOf(Props(new ControllerActor(this)), name = "controller")
+  val actorSolver: ActorRef = actorSystem.actorOf(Props(new Solver(grid, actorController)), name = "solver")
 
   var noMineCount: Int = 0
   var mineFound: Int = 0
@@ -220,7 +220,7 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
   }
 
   def solve(): Unit = {
-    actorSolver ! StartMessage(intList, grid)
+    actorSolver ! ControllerMessage(intList, grid)
   }
 
   def solveActor(value: (List[(Int, Int)], GridInterface)): Unit = {
@@ -262,13 +262,9 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
 
 object MyActor {
 
-  case class PingMessage(value: (List[(Int, Int)], GridInterface))
+  case class SolverMessage(value: (List[(Int, Int)], GridInterface))
 
-  case object PongMessage
-
-  case class StartMessage(value: (List[(Int, Int)], GridInterface))
-
-  case object StopMessage
+  case class ControllerMessage(value: (List[(Int, Int)], GridInterface))
 
 }
 
@@ -277,7 +273,7 @@ class ControllerActor(controller: ControllerInterface) extends Actor {
   import MyActor._
 
   def receive: PartialFunction[Any, Unit] = {
-    case PingMessage(value) => controller.solveActor(value)
+    case SolverMessage(value) => controller.solveActor(value)
   }
 
 }
