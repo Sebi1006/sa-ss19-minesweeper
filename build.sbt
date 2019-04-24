@@ -20,3 +20,5 @@ libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.6"
 libraryDependencies += "com.google.inject.extensions" % "guice-assistedinject" % "4.1.0"
 
 libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.0.0"
+
+coverageExcludedPackages := "de.htwg.sa.minesweeper.view.Gui;de.htwg.sa.minesweeper.MineSweeper"
