@@ -90,6 +90,22 @@ class TuiSpec extends WordSpec with Matchers {
       tui.processInputLine("1")
       tui.processInputLine("load")
       controller.grid.matrix.cell(1, 1).checked should be(true)
+
+      tui.processInputLine("2")
+      val input2 = "2 2"
+      tui.processInputLine(input2)
+      tui.processInputLine("save")
+      tui.processInputLine("2")
+      tui.processInputLine("load")
+      controller.grid.matrix.cell(1, 1).checked should be(true)
+
+      tui.processInputLine("3")
+      val input3 = "2 2"
+      tui.processInputLine(input3)
+      tui.processInputLine("save")
+      tui.processInputLine("3")
+      tui.processInputLine("load")
+      controller.grid.matrix.cell(1, 1).checked should be(true)
     }
 
     "lose a minesweeper game" in {

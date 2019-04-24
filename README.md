@@ -1,15 +1,10 @@
-[![Build Status](https://travis-ci.org/Sebi1006/sa-ss19-minesweeper.svg?branch=master)](https://travis-ci.org/Sebi1006/sa-ss19-minesweeper) - [![Coverage Status](https://coveralls.io/repos/github/Sebi1006/sa-ss19-minesweeper/badge.svg?branch=master)](https://coveralls.io/github/Sebi1006/sa-ss19-minesweeper?branch=master) - Master
+[![Build Status](https://travis-ci.org/Sebi1006/sa-ss19-minesweeper.svg?branch=master)](https://travis-ci.org/Sebi1006/sa-ss19-minesweeper) [![Coverage Status](https://coveralls.io/repos/github/Sebi1006/sa-ss19-minesweeper/badge.svg?branch=master)](https://coveralls.io/github/Sebi1006/sa-ss19-minesweeper?branch=master)
 
 
 # HTWG Minesweeper in Scala
 
 This is an implementation of Minesweeper in Scala for the class
 Software Architecture at the University of Applied Sciences HTWG Konstanz.
-
-* Has a folder structure prepared for an application build in MVC style
-* Has *ScalaTest* and *ScalaMock* at their latest versions as dependencies
-* Has *sbt-scalariform*, *sbt-scapegoat*, *scalastyle-sbt-plugin* and *sbt-scoverage* sbt plugins
-* Has .gitignore defaults
 
 
 ## Commands to play

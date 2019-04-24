@@ -12,10 +12,6 @@ case class Matrix[T](rows: Vector[Vector[T]]) {
     rows(row)(col)
   }
 
-  def fill(cell: T): Matrix[T] = {
-    copy(Vector.tabulate(size, size) { (_, _) => cell })
-  }
-
   def replaceCell(row: Int, col: Int, cell: T): Matrix[T] = {
     copy(rows.updated(row, rows(row).updated(col, cell)))
   }
