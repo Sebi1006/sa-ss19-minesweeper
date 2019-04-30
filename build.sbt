@@ -19,6 +19,10 @@ libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.6"
 
 libraryDependencies += "com.google.inject.extensions" % "guice-assistedinject" % "4.1.0"
 
-libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.0.0"
+libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.1.8"
 
-coverageExcludedPackages := "de.htwg.sa.minesweeper.view.Gui;de.htwg.sa.minesweeper.MineSweeper"
+libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.8"
+
+libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.5.22"
+
+coverageExcludedPackages := "de.htwg.sa.minesweeper.view.Gui;de.htwg.sa.minesweeper.view.RestApi;de.htwg.sa.minesweeper.MineSweeper"

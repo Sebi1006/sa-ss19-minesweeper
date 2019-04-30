@@ -1,6 +1,6 @@
 package de.htwg.sa.minesweeper
 
-import de.htwg.sa.minesweeper.view.{Gui, Tui}
+import de.htwg.sa.minesweeper.view.{Gui, Tui, RestApi}
 import de.htwg.sa.minesweeper.controller.ControllerInterface
 
 import scala.io.StdIn.readLine
@@ -12,9 +12,11 @@ object MineSweeper {
   val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
   val tui = new Tui(controller)
   val gui = new Gui(controller)
+  val rest = new RestApi(controller)
 
   def main(args: Array[String]): Unit = {
     var input: String = ""
+    rest.startRestApi()
 
     do {
       input = readLine()

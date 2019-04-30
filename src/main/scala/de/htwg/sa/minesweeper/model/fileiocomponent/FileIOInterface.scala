@@ -2,6 +2,8 @@ package de.htwg.sa.minesweeper.model.fileiocomponent
 
 import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
 
+import play.api.libs.json.JsValue
+
 /**
   * An IO interface which defines save and load instructions of minesweeper grids for file IO.
   */
@@ -21,5 +23,13 @@ trait FileIOInterface {
     * @param grid the grid the user wants to save.
     */
   def save(grid: GridInterface): Unit
+
+  /**
+    * Gets the JSON grid.
+    *
+    * @param grid the grid.
+    * @return the JsValue.
+    */
+  def getJsonGrid(grid: GridInterface): JsValue
 
 }

@@ -91,6 +91,11 @@ case class Grid(matrix: Matrix[Cell], size: Int) extends GridInterface {
     this.colArray(i)
   }
 
+  def solve(): (List[(Int, Int)], GridInterface) = {
+    val s = new Solver(this)
+    s.solve()
+  }
+
   override def toString: String = {
     val lineSeparator = ("+-" + ("--" * size)) + "+\n"
     val line = ("| " + ("y " * size)) + "|\n"

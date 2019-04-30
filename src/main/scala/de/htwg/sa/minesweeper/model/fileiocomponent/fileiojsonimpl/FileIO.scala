@@ -110,4 +110,8 @@ class FileIO extends FileIOInterface {
     }
   }
 
+  override def getJsonGrid(grid: GridInterface): JsValue = {
+    gridToJson(grid)
+  }
+
 }

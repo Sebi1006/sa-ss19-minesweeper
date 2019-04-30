@@ -5,25 +5,19 @@ import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
 import de.htwg.sa.minesweeper.util.UndoManager
 import de.htwg.sa.minesweeper.MineSweeperModule
 import de.htwg.sa.minesweeper.model.fileiocomponent.FileIOInterface
-import de.htwg.sa.minesweeper.controller.controllerbaseimpl.MyActor.ControllerMessage
-import de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl.Solver
 
 import net.codingwell.scalaguice.InjectorExtensions._
 import com.google.inject.name.Names
 import com.google.inject.{Guice, Inject, Injector}
 import scala.swing.Publisher
 import java.awt.Color
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import play.api.libs.json.JsValue
 
 class Controller @Inject()(var grid: GridInterface) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager()
   val injector: Injector = Guice.createInjector(new MineSweeperModule())
   val fileIo: FileIOInterface = injector.instance[FileIOInterface]
-
-  val actorSystem = ActorSystem("MinesweeperSystem")
-  val actorController: ActorRef = actorSystem.actorOf(Props(new ControllerActor(this)), name = "controller")
-  val actorSolver: ActorRef = actorSystem.actorOf(Props(new Solver(grid, actorController)), name = "solver")
 
   var noMineCount: Int = 0
   var mineFound: Int = 0
@@ -220,12 +214,9 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
   }
 
   def solve(): Unit = {
-    actorSolver ! ControllerMessage(intList, grid)
-  }
-
-  def solveActor(value: (List[(Int, Int)], GridInterface)): Unit = {
-    intList = value._1
-    grid = value._2
+    val tuple = grid.solve()
+    intList = tuple._1
+    grid = tuple._2
     undoManager.doStep(new SetCommand(0, 0, true, intList, 4, this))
     publish(CellChanged())
   }
@@ -253,27 +244,13 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
     publish(CellChanged())
   }
 
+  def getJsonGrid(): JsValue = {
+    fileIo.getJsonGrid(grid)
+  }
+
   def getAll(row: Int, col: Int): (Boolean, Boolean, Int, Int, Int, Int, Option[Color], Boolean) = {
     (grid.matrix.cell(row, col).checked, getMine(row, col), grid.matrix.cell(row, col).value, grid.matrix.cell(row, col).color,
       grid.size, grid.size, grid.matrix.cell(row, col).colorBack, grid.matrix.cell(row, col).flag)
-  }
-
-}
-
-object MyActor {
-
-  case class SolverMessage(value: (List[(Int, Int)], GridInterface))
-
-  case class ControllerMessage(value: (List[(Int, Int)], GridInterface))
-
-}
-
-class ControllerActor(controller: ControllerInterface) extends Actor {
-
-  import MyActor._
-
-  def receive: PartialFunction[Any, Unit] = {
-    case SolverMessage(value) => controller.solveActor(value)
   }
 
 }

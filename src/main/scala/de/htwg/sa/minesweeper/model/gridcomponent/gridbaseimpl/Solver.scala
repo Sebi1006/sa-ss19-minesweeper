@@ -1,16 +1,14 @@
 package de.htwg.sa.minesweeper.model.gridcomponent.gridbaseimpl
 
 import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
-import de.htwg.sa.minesweeper.controller.controllerbaseimpl.MyActor.{SolverMessage, ControllerMessage}
 
-import akka.actor.{Actor, ActorRef}
 import java.awt.Color
 
-class Solver(grid: GridInterface, controller: ActorRef) extends Actor {
+class Solver(grid: GridInterface) {
 
-  def solve(value: (List[(Int, Int)], GridInterface)): (List[(Int, Int)], GridInterface) = {
+  def solve(): (List[(Int, Int)], GridInterface) = {
     var intList: List[(Int, Int)] = Nil
-    var gridBase = value._2
+    var gridBase = grid
 
     for (i <- 0 until gridBase.size; j <- 0 until gridBase.size) {
       if (!gridBase.matrix.cell(i, j).checked) {
@@ -23,10 +21,6 @@ class Solver(grid: GridInterface, controller: ActorRef) extends Actor {
     }
 
     (intList, gridBase)
-  }
-
-  override def receive: Receive = {
-    case ControllerMessage(value) => controller ! SolverMessage(solve(value))
   }
 
 }

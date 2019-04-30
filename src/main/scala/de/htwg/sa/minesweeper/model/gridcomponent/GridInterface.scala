@@ -89,6 +89,13 @@ trait GridInterface {
     */
   def colIndex(i: Int): Int
 
+  /**
+    * Solves the grid.
+    *
+    * @return a list of row and col indices for every cell that was checked that way.
+    */
+  def solve(): (List[(Int, Int)], GridInterface)
+
 }
 
 /**

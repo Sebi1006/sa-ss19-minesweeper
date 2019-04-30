@@ -3,6 +3,7 @@ package de.htwg.sa.minesweeper.controller
 import de.htwg.sa.minesweeper.model.gridcomponent.GridInterface
 
 import scala.swing.Publisher
+import play.api.libs.json.JsValue
 
 /**
   * A controller interface to define the controller of a minesweeper game.
@@ -89,11 +90,6 @@ trait ControllerInterface extends Publisher {
   def solve(): Unit
 
   /**
-    * Solves the grid with the actor system.
-    */
-  def solveActor(value: (List[(Int, Int)], GridInterface)): Unit
-
-  /**
     * Saves the grid of the controller with a FileIO (see FileIOInterface).
     */
   def save(): Unit
@@ -102,6 +98,13 @@ trait ControllerInterface extends Publisher {
     * Loads a new grid for the controller with a FileIO (see FileIOInterface).
     */
   def load(): Unit
+
+  /**
+    * Gets the JSON grid.
+    *
+    * @return the JsValue.
+    */
+  def getJsonGrid(): JsValue
 
 }
 
