@@ -1,0 +1,87 @@
+# Mac
+database/.DS_Store
+game/.DS_Store
+
+# Eclipse
+database/bin/
+database/.settings/
+database/.classpath
+game/bin/
+game/.settings/
+game/.classpath
+
+# IntelliJ
+database/.idea/
+database/.idea_modules/
+database/target/
+database/*.iml
+game/.idea/
+game/.idea_modules/
+game/target/
+game/*.iml
+
+# Maven
+database/log/
+database/target/
+game/log/
+game/target/
+
+# Gradle
+database/.gradle/
+database/build/
+database/pom.xml
+game/.gradle/
+game/build/
+game/pom.xml
+
+# sbt
+database/.cache
+database/.history
+database/.lib/
+database/dist/*
+database/target/
+database/lib_managed/
+database/src_managed/
+database/project/boot/
+database/project/plugins/project/
+database/project/target/
+database/project/project/
+database/logs/
+database/project/.sbtserver
+database/.sbtserver/
+database/project/typesafe.properties
+database/project/activator-*
+game/.cache
+game/.history
+game/.lib/
+game/dist/*
+game/target/
+game/lib_managed/
+game/src_managed/
+game/project/boot/
+game/project/plugins/project/
+game/project/target/
+game/project/project/
+game/logs/
+game/project/.sbtserver
+game/.sbtserver/
+game/project/typesafe.properties
+game/project/activator-*
+
+# Scala-IDE specific
+database/.scala_dependencies
+database/.worksheet
+game/.scala_dependencies
+game/.worksheet
+
+# Sonar
+database/.sonar/
+game/.sonar/
+
+# Application
+database/minesweeper.log
+game/minesweeper.log
+
+# Play
+database/RUNNING_PID
+game/RUNNING_PID
