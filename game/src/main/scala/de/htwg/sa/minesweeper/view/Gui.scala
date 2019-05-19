@@ -285,7 +285,7 @@ class Gui(controller: ControllerInterface) extends JFrame("HTWG Minesweeper") wi
   }
 
   def setImageIcon(): Unit = {
-    val projectPath = System.getProperty("user.dir")
+    val projectPath = System.getProperty("user.dir") + "\\game"
     var name: String = ""
     var i: Int = 0
 
