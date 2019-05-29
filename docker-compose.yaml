@@ -1,0 +1,50 @@
+version: '2'
+services:
+
+  game:
+    build:
+      context: .
+      dockerfile: dockerfilegame
+    image: dockergame/minesweepergame:latest
+    container_name: game
+    tty: true
+    environment:
+      - SERVER_HOST=h2
+      - SERVER_PORT=1521
+    ports:
+      - "9090:9090"
+    networks:
+      app-network:
+        aliases:
+          - game
+
+  server:
+    build:
+      context: .
+      dockerfile: dockerfiledb
+    image: dockerserver/minesweeperserver:latest
+    container_name: server
+    tty: true
+    environment:
+      - SERVER_HOST=h2
+      - SERVER_PORT=1521
+    ports:
+      - "8888:8888"
+    depends_on:
+      - game
+    networks:
+      app-network:
+        aliases:
+          - server
+
+  h2:
+    image: oscarfonts/h2
+    container_name: h2
+    tty: true
+    ports:
+      - "1521:1521"
+    depends_on:
+      - server
+
+networks:
+  app-network:

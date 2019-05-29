@@ -1,0 +1,7 @@
+FROM zgwmike/akka-sbt
+
+WORKDIR /sa-ss19-minesweeper
+
+ADD . /sa-ss19-minesweeper
+
+CMD sbt "runMain de.htwg.sa.minesweeper.MineSweeper"
