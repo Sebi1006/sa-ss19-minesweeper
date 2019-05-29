@@ -33,7 +33,6 @@ lazy val game = project
 lazy val database = project
   .settings(
     commonSettings,
-    mainClass in Compile := Some("main"),
     libraryDependencies ++= List(
       "com.typesafe.slick" %% "slick" % "3.2.0",
       "org.slf4j" % "slf4j-nop" % "1.7.10",

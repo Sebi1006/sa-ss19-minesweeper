@@ -12,11 +12,11 @@ import scala.io.StdIn
 
 class RestApi(controller: ControllerInterface) {
 
-  def startRestApi(): Unit = {
-    implicit val actorSystem: ActorSystem = ActorSystem("MinesweeperSystem")
-    implicit val actorMaterializer: ActorMaterializer = ActorMaterializer()
-    implicit val executionContext: ExecutionContextExecutor = actorSystem.dispatcher
+  implicit val actorSystem: ActorSystem = ActorSystem("MinesweeperSystem")
+  implicit val actorMaterializer: ActorMaterializer = ActorMaterializer()
+  implicit val executionContext: ExecutionContextExecutor = actorSystem.dispatcher
 
+  def startRestApi(): Unit = {
     val route =
       path("createGrid" / IntNumber) { size =>
         get {
@@ -65,9 +65,9 @@ class RestApi(controller: ControllerInterface) {
         }
       }
 
-    val bindingFuture = Http().bindAndHandle(route, "localhost", 8888)
+    val bindingFuture = Http().bindAndHandle(route, "localhost", 9090)
 
-    println("Server online at http://localhost:8888/")
+    println("Server online at http://localhost:9090/")
     StdIn.readLine()
     bindingFuture
       .flatMap(_.unbind())

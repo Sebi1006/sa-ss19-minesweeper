@@ -10,7 +10,7 @@ import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import scala.util.Try
 import scala.concurrent.{ExecutionContextExecutor, Future}
-import scala.util.Success
+import scala.util.{Failure, Success}
 import play.api.libs.json._
 
 class SaveAndLoad extends SaveAndLoadInterface {
@@ -22,7 +22,7 @@ class SaveAndLoad extends SaveAndLoadInterface {
   override def load(): Future[HttpResponse] = {
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.GET,
-      uri = "http://localhost:8887/load"))
+      uri = "http://localhost:8888/load"))
 
     responseFuture
   }
@@ -63,12 +63,13 @@ class SaveAndLoad extends SaveAndLoadInterface {
   override def save(grid: GridInterface): Unit = {
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.GET,
-      uri = "http://localhost:8887/save",
+      uri = "http://localhost:8888/save",
       entity = HttpEntity(ContentTypes.`application/json`, Json.prettyPrint(gridToJson(grid)).toString)
     ))
 
     responseFuture.onComplete {
       case Success(_) => println("The current minesweeper grid was successfully saved.")
+      case Failure(e) => println(e)
     }
   }
 

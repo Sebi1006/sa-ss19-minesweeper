@@ -11,7 +11,7 @@ import akka.stream.ActorMaterializer
 import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContextExecutor
-import scala.util.Success
+import scala.util.{Failure, Success}
 
 class RestApi(database: DatabaseSetup) {
 
@@ -20,13 +20,13 @@ class RestApi(database: DatabaseSetup) {
   implicit val executionContext: ExecutionContextExecutor = actorSystem.dispatcher
 
   def startServer(): Unit = {
-    val serverSource = Http().bind(interface = "localhost", port = 8887)
+    val serverSource = Http().bind(interface = "localhost", port = 8888)
 
     val requestHandler: HttpRequest => HttpResponse = {
       case HttpRequest(GET, Uri.Path("/save"), _, _, _) => {
         val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
           method = HttpMethods.GET,
-          uri = "http://localhost:8888/getJsonGrid"
+          uri = "http://localhost:9090/getJsonGrid"
         ))
 
         responseFuture.onComplete {
@@ -34,8 +34,10 @@ class RestApi(database: DatabaseSetup) {
             val tmp: Future[String] = value.entity.toStrict(5 seconds).map(_.data.decodeString("UTF-8"))
             tmp.onComplete {
               case Success(grid) => database.save(grid)
+              case Failure(e) => println(e)
             }
           }
+          case Failure(e) => println(e)
         }
 
         HttpResponse(entity = "saved")

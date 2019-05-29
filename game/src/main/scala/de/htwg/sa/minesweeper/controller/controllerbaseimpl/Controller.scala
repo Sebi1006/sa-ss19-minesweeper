@@ -11,7 +11,7 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.ActorMaterializer
 import com.google.inject.name.Names
 import com.google.inject.{Guice, Inject, Injector}
-import scala.util.Success
+import scala.util.{Failure, Success}
 import scala.swing.Publisher
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import net.codingwell.scalaguice.InjectorExtensions._
@@ -249,6 +249,7 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
 
             gridOption match {
               case Some(newGrid) => grid = newGrid
+              case None => println("Error!")
             }
 
             noMineCount = (grid.size * grid.size) - numMines
@@ -258,8 +259,10 @@ class Controller @Inject()(var grid: GridInterface) extends ControllerInterface 
             publish(GridSizeChanged(grid.size, grid.size, numMines))
             publish(CellChanged())
           }
+          case Failure(e) => println(e)
         }
       }
+      case Failure(e) => println(e)
     }
   }
 
