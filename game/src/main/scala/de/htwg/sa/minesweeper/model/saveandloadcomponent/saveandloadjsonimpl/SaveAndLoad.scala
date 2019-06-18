@@ -22,7 +22,7 @@ class SaveAndLoad extends SaveAndLoadInterface {
   override def load(): Future[HttpResponse] = {
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.GET,
-      uri = "http://localhost:8888/load"))
+      uri = "http://localhost:8889/load"))
 
     responseFuture
   }
@@ -63,7 +63,7 @@ class SaveAndLoad extends SaveAndLoadInterface {
   override def save(grid: GridInterface): Unit = {
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.GET,
-      uri = "http://localhost:8888/save",
+      uri = "http://localhost:8889/save",
       entity = HttpEntity(ContentTypes.`application/json`, Json.prettyPrint(gridToJson(grid)).toString)
     ))
 
