@@ -1,87 +1,53 @@
 # Mac
-database/.DS_Store
-game/.DS_Store
+.DS_Store
 
 # Eclipse
-database/bin/
-database/.settings/
-database/.classpath
-game/bin/
-game/.settings/
-game/.classpath
+bin/
+.settings/
+.classpath
 
 # IntelliJ
-database/.idea/
-database/.idea_modules/
-database/target/
-database/*.iml
-game/.idea/
-game/.idea_modules/
-game/target/
-game/*.iml
+.idea/
+.idea_modules/
+target/
+*.iml
 
 # Maven
-database/log/
-database/target/
-game/log/
-game/target/
+log/
+target/
 
 # Gradle
-database/.gradle/
-database/build/
-database/pom.xml
-game/.gradle/
-game/build/
-game/pom.xml
+.gradle/
+build/
+pom.xml
 
 # sbt
-database/.cache
-database/.history
-database/.lib/
-database/dist/*
-database/target/
-database/lib_managed/
-database/src_managed/
-database/project/boot/
-database/project/plugins/project/
-database/project/target/
-database/project/project/
-database/logs/
-database/project/.sbtserver
-database/.sbtserver/
-database/project/typesafe.properties
-database/project/activator-*
-game/.cache
-game/.history
-game/.lib/
-game/dist/*
-game/target/
-game/lib_managed/
-game/src_managed/
-game/project/boot/
-game/project/plugins/project/
-game/project/target/
-game/project/project/
-game/logs/
-game/project/.sbtserver
-game/.sbtserver/
-game/project/typesafe.properties
-game/project/activator-*
+.cache
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+project/target/
+project/project/
+logs/
+project/.sbtserver
+.sbtserver/
+project/typesafe.properties
+project/activator-*
 
 # Scala-IDE specific
-database/.scala_dependencies
-database/.worksheet
-game/.scala_dependencies
-game/.worksheet
+.scala_dependencies
+.worksheet
 
 # Sonar
-database/.sonar/
-game/.sonar/
+.sonar/
 
 # Application
-database/minesweeper.log
-game/minesweeper.log
+minesweeper.log
 
 # Play
-database/RUNNING_PID
-game/RUNNING_PID
+RUNNING_PID

@@ -6,6 +6,6 @@ object DatabaseMain {
     val database = new DatabaseSetup()
     val rest = new RestApi(database)
     rest.startServer()
-}
+  }
 
 }

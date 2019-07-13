@@ -43,9 +43,34 @@ class RestApi(database: DatabaseSetup) {
         HttpResponse(entity = "saved")
       }
 
+      case HttpRequest(GET, Uri.Path("/update"), _, _, _) => {
+        val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+          method = HttpMethods.GET,
+          uri = "http://localhost:9090/getJsonGrid"
+        ))
+
+        responseFuture.onComplete {
+          case Success(value) => {
+            val tmp: Future[String] = value.entity.toStrict(5 seconds).map(_.data.decodeString("UTF-8"))
+            tmp.onComplete {
+              case Success(grid) => database.update(grid)
+              case Failure(e) => println(e)
+            }
+          }
+          case Failure(e) => println(e)
+        }
+
+        HttpResponse(entity = "updated")
+      }
+
       case HttpRequest(GET, Uri.Path("/load"), _, _, _) => {
         val response = database.load()
         HttpResponse(entity = response)
+      }
+
+      case HttpRequest(GET, Uri.Path("/delete"), _, _, _) => {
+        database.delete()
+        HttpResponse(entity = "deleted")
       }
     }
 

@@ -1,4 +1,3 @@
-
 lazy val commonSettings = Seq(
   organization := "de.htwg.sa",
   version := "1.0.0",
@@ -11,7 +10,8 @@ lazy val root = (project in file("."))
   )
   .aggregate(
     game,
-    database
+    database,
+    database2
   )
 
 lazy val game = project
@@ -47,20 +47,12 @@ lazy val database = project
     libraryDependencies += "com.typesafe.play" %% "play-slick-evolutions" % "4.0.0"
   )
 
-
-lazy val databaseNoSQL = project
+lazy val database2 = project
   .settings(
     commonSettings,
-    libraryDependencies ++= List(
-      "com.typesafe.slick" %% "slick" % "3.2.0",
-      "org.slf4j" % "slf4j-nop" % "1.7.10",
-      "com.h2database" % "h2" % "1.4.187"
-    ),
     libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.6",
     libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.1.8",
     libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.8",
     libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.5.22",
-    libraryDependencies += "com.typesafe.play" %% "play-slick" % "4.0.0",
-    libraryDependencies += "com.typesafe.play" %% "play-slick-evolutions" % "4.0.0",
     libraryDependencies += "org.mongodb.scala" %% "mongo-scala-driver" % "2.6.0"
   )
